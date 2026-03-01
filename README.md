@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A common belief is that eating healthy — especially high-protein meals — takes more time than cooking regular meals. Because of this, many people avoid meal prepping since they think it is too time-consuming or inconvenient.
+A common belief is that eating healthy, especially high-protein meals, takes more time than cooking regular meals. Because of this, many people avoid meal prepping since they think it is too time-consuming or inconvenient.
 
 This project looks at whether that belief is actually true.
 
