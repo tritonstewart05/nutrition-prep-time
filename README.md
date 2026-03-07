@@ -1,4 +1,4 @@
-# Fitness-oriented Recipes and Their Correlation with Preparation Time
+# Do Healthier Recipes Take Longer? An Analysis of Fitness-Oriented Nutrition and Preparation Time
 
 ## Introduction
 
