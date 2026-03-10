@@ -155,11 +155,11 @@ We next examined the missingness of `rating` in the merged DataFrame by testing 
 
 **Significance Level:** 0.05
 
-![Protein PDV KDE](images/missingness_protein_kde.png)
+<iframe src="images/missingness_protein_kde.html" width="100%" height="550"></iframe>
 
 We ran a permutation test by shuffling the missingness of `rating` 1000 times to generate simulated differences in the mean protein PDV between the two groups.
 
-![Protein PDV Permutation](images/perm_missing_rating_protein.png)
+<iframe src="images/perm_missing_rating_protein.html" width="100%" height="550"></iframe>
 
 The observed statistic is indicated by the red vertical line on the permutation distribution. Since the p-value we obtained (0.0) is less than the significance level of 0.05, we reject the null hypothesis. This suggests that the missingness of `rating` depends on `protein_pdv`.
 
@@ -175,7 +175,7 @@ The observed statistic is indicated by the red vertical line on the permutation 
 
 **Significance Level:** 0.05
 
-![Random Column Permutation](images/perm_missing_rating_random.png)
+<iframe src="images/perm_missing_rating_random.html" width="100%" height="550" frameborder="0"></iframe>
 
 We ran another permutation test by randomly shuffling the missingness of `rating` 1000 times to simulate the distribution of mean differences between the two groups.
 
