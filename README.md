@@ -40,16 +40,15 @@ To answer our research question, we focus on the following relevant columns:
 | Column | Description |
 |--------|-------------|
 | `minutes` | Total time required to prepare the recipe |
-| `tags` | Labels that describe the type of dish |
-| `protein_pdv` | Protein content as a percentage of daily value |
-| `sat_fat_pdv` | Saturated fat content as a percentage of daily value |
-| `calories` | Total calories per recipe |
+| `nutrition` | Nutrition information in the form [calories (#), total fat (PDV), sugar (PDV), sodium (PDV), protein (PDV), saturated fat (PDV), carbohydrates (PDV)]; PDV stands for “percentage of daily value” |
 | `n_steps` | Number of preparation steps required |
 
 Given the datasets, we investigate whether recipes that align more closely with fitness-oriented nutrition differ in preparation time compared to less nutritious recipes. To facilitate this analysis, we first separated the values stored in the `nutrition` column into their corresponding columns, including `calories (#)`, `total fat (PDV)`, `sugar (PDV)`, `protein (PDV)`, and others. PDV, or percent daily value, represents how much a nutrient in a serving of food contributes to the recommended daily intake.
 
-Using these nutritional variables, we constructed a measure of recipe “fitness” based on the difference between protein and fat daily value percentages (`protein_pdv - fat_pdv`). Recipes with relatively higher protein content and lower fat content were categorized as **High Fitness**, while the remaining recipes were categorized as **Low Fitness**. This grouping allows us to compare preparation times between recipes that are more aligned with fitness-oriented nutrition and those that are not.
+Using these nutritional variables, we constructed a measure of recipe “fitness” based on the difference between protein and fat daily value percentages (`protein_pdv - total_fat_pdv`). Recipes with relatively higher protein content and lower fat content were categorized as **High Fitness**, while the remaining recipes were categorized as **Low Fitness**. This grouping allows us to compare preparation times between recipes that are more aligned with fitness-oriented nutrition and those that are not.
 
 The most relevant columns for answering our question include `minutes`, which records the total preparation time of each recipe, `protein_pdv` and `fat_pdv`, which represent the nutritional composition of the recipe, and `n_steps` and `n_ingredients`, which capture the structural complexity of the recipe.
 
 By examining these features, we aim to understand whether healthier recipes tend to require more or less preparation time. Insights from this analysis may help recipe contributors better understand whether creating fitness-oriented meals requires additional preparation effort and whether perceived time constraints are a meaningful barrier to healthier eating.
+
+
