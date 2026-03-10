@@ -179,7 +179,7 @@ The observed statistic is indicated by the red vertical line on the permutation 
 
 We ran another permutation test by randomly shuffling the missingness of `rating` 1000 times to simulate the distribution of mean differences between the two groups.
 
-The observed statistic is indicated by the red vertical line on the permutation distribution. Since the p-value we obtained (0.153) is greater than 0.05, we fail to reject the null hypothesis. This suggests that the missingness of `rating` does not depend on `random_col`, which is consistent with what we would expect from a randomly generated variable.
+The observed statistic is indicated by the red vertical line on the permutation distribution. Since the p-value we obtained (0.635) is greater than 0.05, we fail to reject the null hypothesis. This suggests that the missingness of `rating` does not depend on `random_col`, which is consistent with what we would expect from a randomly generated variable.
 
 ---
 
