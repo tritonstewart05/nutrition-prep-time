@@ -40,7 +40,7 @@ To answer our research question, we focus on the following relevant columns:
 | Column | Description |
 |--------|-------------|
 | `minutes` | Total time required to prepare the recipe |
-| `nutrition` | Nutrition information in the form [calories (#), total fat (PDV), sugar (PDV), sodium (PDV), protein (PDV), saturated fat (PDV), carbohydrates (PDV)]; PDV stands for “percentage of daily value” |
+| `nutrition` | Nutrition information in the format [calories (#), total fat (PDV), sugar (PDV), sodium (PDV), protein (PDV), saturated fat (PDV), carbohydrates (PDV)] |
 | `n_steps` | Number of preparation steps required |
 
 Given the datasets, we investigate whether recipes that align more closely with fitness-oriented nutrition differ in preparation time compared to less nutritious recipes. To facilitate this analysis, we first separated the values stored in the `nutrition` column into their corresponding columns, including `calories (#)`, `total fat (PDV)`, `sugar (PDV)`, `protein (PDV)`, and others. PDV, or percent daily value, represents how much a nutrient in a serving of food contributes to the recommended daily intake.
@@ -49,6 +49,85 @@ Using these nutritional variables, we constructed a measure of recipe “fitness
 
 The most relevant columns for answering our question include `minutes`, which records the total preparation time of each recipe, `protein_pdv` and `fat_pdv`, which represent the nutritional composition of the recipe, and `n_steps` and `n_ingredients`, which capture the structural complexity of the recipe.
 
-By examining these features, we aim to understand whether healthier recipes tend to require more or less preparation time. Insights from this analysis may help recipe contributors better understand whether creating fitness-oriented meals requires additional preparation effort and whether perceived time constraints are a meaningful barrier to healthier eating.
 
+## Data Cleaning
 
+To prepare the dataset for analysis, we performed several data cleaning and transformation steps. First, we merged the `recipes` and `interactions` datasets so that each recipe contains both its nutritional information and user interaction data such as ratings. The merge was performed using the recipe ID as the key.
+
+Next, we replaced ratings of `0` with missing values (`NaN`). In this dataset, a rating of zero does not represent an actual rating but instead indicates that a user did not leave a rating. Treating these values as missing prevents them from artificially lowering average rating calculations.
+
+Because each recipe can receive multiple ratings, we then calculated the **average rating for each recipe** by grouping by recipe ID and computing the mean rating across users. This value was stored in a new column called `avg_rating`.
+
+The original dataset stores nutrition information as a list inside the `nutrition` column. To make these values usable for analysis, we separated this column into individual numeric columns representing each nutrient:
+
+- calories  
+- total fat (PDV)  
+- sugar (PDV)  
+- sodium (PDV)  
+- protein (PDV)  
+- saturated fat (PDV)  
+- carbohydrates (PDV)  
+
+PDV (Percent Daily Value) represents how much a nutrient contributes to the recommended daily intake.
+
+To reduce the influence of extreme outliers, we removed recipes with calorie values greater than **2000 calories**, as these likely represent bulk mixtures or ingredient blends rather than individual recipes. We also removed recipes with preparation times greater than **600 minutes** or less than or equal to zero.
+
+Finally, we constructed a **fitness score** to measure how aligned a recipe is with fitness-oriented nutrition: recipes with relatively higher protein and lower fat content receive higher scores.
+
+To simplify comparisons, recipes were divided into two groups based on the **median fitness score**:
+
+- **High Fitness** – recipes with scores above the median  
+- **Low Fitness** – recipes with scores below the median  
+
+---
+
+## Distribution of Preparation Time
+
+<iframe src="images/univariate1.html" width="900" height="500"></iframe>
+
+The distribution of preparation time is strongly **right-skewed**, meaning most recipes require relatively short preparation times while a smaller number take much longer. The majority of recipes fall below approximately 100 minutes, though a long tail extends toward more complex recipes with longer preparation times. This pattern supports our decision to remove extreme outliers above 600 minutes during the cleaning process.
+
+---
+
+## Distribution of Fitness Score
+
+<iframe src="images/univariate2.html" width="900" height="500"></iframe>
+
+The distribution of the fitness score is centered around zero with both positive and negative values. Recipes with higher scores tend to have relatively higher protein content compared to fat, while negative scores indicate recipes with relatively higher fat content. This distribution allows us to divide recipes into **High Fitness** and **Low Fitness** groups for further analysis.
+
+---
+
+# Bivariate Analysis
+
+## Fitness Score vs Preparation Time
+
+<iframe src="images/bivariate1.html" width="900" height="500"></iframe>
+
+This scatter plot shows the relationship between recipe fitness score and preparation time. Although preparation time varies widely across recipes, there appears to be a slight tendency for recipes with higher fitness scores to have longer preparation times. However, the relationship is not strongly linear, suggesting that other factors such as recipe complexity may also influence preparation time.
+
+---
+
+## Average Preparation Time by Fitness Alignment
+
+<iframe src="images/bivariate2.html" width="900" height="500"></iframe>
+
+This bar chart compares the average preparation time between **High Fitness** and **Low Fitness** recipes. Recipes categorized as high fitness appear to take longer on average than low fitness recipes. This pattern suggests that healthier recipes may require more preparation effort, possibly due to additional ingredients or more involved cooking techniques.
+
+---
+
+# Interesting Aggregates
+
+To further explore how recipe complexity influences preparation time, we created a pivot table that groups recipes by both **fitness alignment** and **number of preparation steps**. Recipes were divided into step-count categories ranging from very few steps to many steps. The table reports the **mean, median, and count** of preparation times within each group.
+
+| Fitness Group | Step Group | Mean Minutes | Median Minutes | Count |
+|---|---|---|---|---|
+| High Fitness | Very Few | 67.39 | 15 | 10291 |
+| High Fitness | Few | 67.91 | 30 | 21448 |
+| High Fitness | Moderate | 66.20 | 40 | 45343 |
+| High Fitness | Many | 77.11 | 50 | 28554 |
+| Low Fitness | Very Few | 23.55 | 10 | 16737 |
+| Low Fitness | Few | 36.88 | 20 | 28727 |
+| Low Fitness | Moderate | 47.12 | 35 | 48648 |
+| Low Fitness | Many | 66.48 | 50 | 26038 |
+
+From this table we observe that recipes with **more preparation steps generally require longer preparation times**, which is expected since additional steps typically correspond to more complex cooking processes. However, even within the same step category, **High Fitness recipes consistently require more preparation time than Low Fitness recipes**. This suggests that healthier recipes may require additional preparation effort not fully captured by step count alone.
