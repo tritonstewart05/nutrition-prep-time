@@ -97,8 +97,6 @@ The distribution of the fitness score is centered around zero with both positive
 
 ---
 
-# Bivariate Analysis
-
 ## Fitness Score vs Preparation Time
 
 <iframe src="images/bivariate1.html" width="900" height="500"></iframe>
