@@ -113,7 +113,7 @@ This bar chart compares the average preparation time between **High Fitness** an
 
 ---
 
-# Interesting Aggregates
+## Interesting Aggregates
 
 To further explore how recipe complexity influences preparation time, we created a pivot table that groups recipes by both **fitness alignment** and **number of preparation steps**. Recipes were divided into step-count categories ranging from very few steps to many steps. The table reports the **mean, median, and count** of preparation times within each group.
 
@@ -129,3 +129,58 @@ To further explore how recipe complexity influences preparation time, we created
 | Low Fitness | Many | 66.48 | 50 | 26038 |
 
 From this table we observe that recipes with **more preparation steps generally require longer preparation times**, which is expected since additional steps typically correspond to more complex cooking processes. However, even within the same step category, **High Fitness recipes consistently require more preparation time than Low Fitness recipes**. This suggests that healthier recipes may require additional preparation effort not fully captured by step count alone.
+
+
+## Assessment of Missingness
+
+Three columns — `date`, `rating`, and `review` — in the merged dataset contain a substantial amount of missing values. Because these variables capture user interaction with recipes, we assessed whether their missingness may be related to characteristics of the recipes themselves.
+
+### MNAR Analysis
+
+We believe that the missingness of the `review` column may be MNAR. Users are less likely to leave a review if they feel neutral or indifferent about a recipe, since writing a review requires time and effort. In contrast, users who feel strongly about a recipe — either positively or negatively — are more likely to share their experiences. This suggests that the likelihood of a review being missing depends on the user’s underlying opinion of the recipe, which is unobserved when no review is written.
+
+### Missingness Dependency
+
+We next examined the missingness of `rating` in the merged DataFrame by testing whether its missingness depends on other variables in the dataset. Specifically, we investigated whether the missingness of `rating` depends on `protein_pdv`, which represents the protein percentage daily value of the recipe, or on a randomly generated column `random_col`.
+
+---
+
+### Protein PDV and Rating
+
+**Null Hypothesis:** The missingness of `rating` does not depend on the protein percentage daily value of the recipe.
+
+**Alternative Hypothesis:** The missingness of `rating` does depend on the protein percentage daily value of the recipe.
+
+**Test Statistic:** The absolute difference in mean `protein_pdv` between the distribution of recipes with missing ratings and the distribution of recipes without missing ratings.
+
+**Significance Level:** 0.05
+
+![Protein PDV KDE](images/missingness_protein_kde.png)
+
+We ran a permutation test by shuffling the missingness of `rating` 1000 times to generate simulated differences in the mean protein PDV between the two groups.
+
+![Protein PDV Permutation](images/perm_missing_rating_protein.png)
+
+The observed statistic is indicated by the red vertical line on the permutation distribution. Since the p-value we obtained (0.0) is less than the significance level of 0.05, we reject the null hypothesis. This suggests that the missingness of `rating` depends on `protein_pdv`.
+
+---
+
+### Random Column and Rating
+
+**Null Hypothesis:** The missingness of `rating` does not depend on `random_col`.
+
+**Alternative Hypothesis:** The missingness of `rating` does depend on `random_col`.
+
+**Test Statistic:** The absolute difference in mean `random_col` between recipes with missing ratings and recipes without missing ratings.
+
+**Significance Level:** 0.05
+
+![Random Column Permutation](images/perm_missing_rating_random.png)
+
+We ran another permutation test by randomly shuffling the missingness of `rating` 1000 times to simulate the distribution of mean differences between the two groups.
+
+The observed statistic is indicated by the red vertical line on the permutation distribution. Since the p-value we obtained (0.153) is greater than 0.05, we fail to reject the null hypothesis. This suggests that the missingness of `rating` does not depend on `random_col`, which is consistent with what we would expect from a randomly generated variable.
+
+---
+
+Overall, these results suggest that the missingness of ratings is not completely random. Instead, it appears to depend on certain recipe characteristics such as protein content, indicating that the data are unlikely to be Missing Completely At Random (MCAR).
