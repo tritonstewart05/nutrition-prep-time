@@ -249,10 +249,6 @@ One possible explanation is that recipes emphasizing higher **`protein_pdv`** an
 
 In particular, recipes with higher fitness scores tend to require longer preparation times.
 
-### Interpretation
-
-One possible explanation is that recipes emphasizing higher **`protein_pdv`** and lower **`total_fat_pdv`** may involve more ingredients or additional preparation steps, which can increase total **`minutes`**.
-
 
 
 ## Framing a Prediction Problem
