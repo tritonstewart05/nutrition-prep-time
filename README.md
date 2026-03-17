@@ -188,20 +188,16 @@ Overall, these results suggest that the missingness of ratings is not completely
 
 
 
-## Hypothesis Testing
+### Hypothesis Testing
 We aim to analyze the relationship between fitness-oriented recipes and their preparation time. Specifically, we investigate whether recipes with higher nutritional alignment tend to require more time to prepare.
 
 To determine whether a recipe is fitness-oriented, we define a fitness score using **`protein_pdv`** and **`total_fat_pdv`** as:
 
 `fitness_score = protein_pdv - total_fat_pdv`
 
-This metric captures the balance between protein and fat content. Recipes with a fitness score above the median are classified as high-fitness recipes, while those below the median are classified as low-fitness recipes.
+Recipes with a fitness score above the mean are classified as high-fitness recipes, while those below the mean are classified as low-fitness recipes. We analyze preparation time using the **`minutes`** column.
 
-We analyze preparation time using the **`minutes`** column, comparing how long recipes take across these groups.
-
-We performed a permutation test to examine whether recipes that are more fitness-oriented tend to take longer to prepare. A permutation test is appropriate because it allows us to compare the **`minutes`** (preparation time) between two groups without making assumptions about the underlying distribution.
-
-Since cooking time can vary widely and may include extreme values, this method provides a flexible and robust way to evaluate whether the observed difference is meaningful.
+We performed a permutation test to examine whether recipes that are more fitness-oriented tend to take longer to prepare. A permutation test is appropriate because it allows us to compare **`minutes`** between two groups without making assumptions about the underlying distribution.
 
 ---
 
@@ -214,25 +210,27 @@ Since cooking time can vary widely and may include extreme values, this method p
 
 ### Test Statistic
 
-We use the difference in **median** **`minutes`** between high-fitness and low-fitness recipes.
+We use the **difference in mean `minutes`** between high-fitness and low-fitness recipes:
 
-The median is used instead of the mean because **`minutes`** is right-skewed, making the median more robust to extreme values.
+`mean(minutes | high fitness) − mean(minutes | low fitness)`
+
+The mean is appropriate here because we are comparing the average preparation time between the two groups, which directly reflects our question of whether one group tends to take longer than the other.
 
 ---
 
 ### Methodology
 
-1. Compute the observed difference in median **`minutes`** between the two groups.
-2. Randomly shuffle the fitness group labels across recipes.
-3. Recompute the difference in medians for each shuffle.
-4. Repeat this process 10,000 times to generate a distribution under the null hypothesis.
-5. Calculate the p-value based on how extreme the observed statistic is compared to the permutation distribution.
+1. Compute the observed difference in mean **`minutes`** between the two groups.
+2. Randomly shuffle the **`fitness_binary`** labels across recipes.
+3. Recompute the difference in means for each shuffle.
+4. Repeat this process 10,000 times to generate a null distribution.
+5. Calculate the p-value as the proportion of simulated statistics greater than or equal to the observed statistic.
 
 ---
 
 ### Results
 
-- Observed statistic: (insert your value)
+- Observed statistic: 27.504
 - p-value: approximately 0.0001
 - Significance level: 0.05
 
@@ -240,7 +238,15 @@ The median is used instead of the mean because **`minutes`** is right-skewed, ma
 
 ### Conclusion
 
-Since the p-value is less than the significance level of 0.05, we reject the null hypothesis. This suggests that **`minutes`** is not distributed the same between high-fitness and low-fitness recipes.
+Since the p-value is less than 0.05, we reject the null hypothesis. This suggests that the average preparation time (**`minutes`**) differs between high-fitness and low-fitness recipes.
+
+Specifically, high-fitness recipes tend to take longer to prepare on average.
+
+---
+
+### Interpretation
+
+One possible explanation is that recipes emphasizing higher **`protein_pdv`** and lower **`total_fat_pdv`** may require more ingredients or more complex preparation steps, leading to longer average cooking times.
 
 In particular, recipes with higher fitness scores tend to require longer preparation times.
 
