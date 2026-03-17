@@ -184,3 +184,23 @@ The observed statistic is indicated by the red vertical line on the permutation 
 ---
 
 Overall, these results suggest that the missingness of ratings is not completely random. Instead, it appears to depend on certain recipe characteristics such as protein content, indicating that the data are unlikely to be Missing Completely At Random (MCAR).
+
+
+
+
+## Part 4
+# Kala Nguyen
+
+
+
+## Framing a Prediction Problem
+
+We aim to predict the preparation time of a recipe, measured in minutes. This is a **regression problem** because the response variable, `minutes`, is continuous. Predicting preparation time is useful for understanding whether fitness-oriented recipes require more effort compared to less nutritious meals, which directly connects to our project’s central question.
+
+We selected preparation time as our response variable because it reflects the effort required to cook a recipe and is a key factor influencing whether individuals choose to prepare healthier meals. By predicting preparation time from recipe characteristics, we can better understand how nutrition relates to convenience.
+
+At the time of prediction, we assume access to features that are known before a recipe is prepared. These include nutritional attributes such as `calories`, `protein_pdv`, and `fat_pdv`, as well as structural features like the number of steps (`n_steps`). These variables describe the recipe itself and are available prior to any user interaction.
+
+We do not use variables such as ratings or reviews, since these are only observed after users have cooked and evaluated the recipe. Including such variables would introduce information that is not available at prediction time and would lead to data leakage.
+
+To evaluate our model, we use **Root Mean Squared Error (RMSE)**. RMSE measures the typical magnitude of prediction errors, with larger RMSE's indicating worse predictors, making it appropriate for assessing how accurately our model predicts preparation time.
