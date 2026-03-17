@@ -296,3 +296,31 @@ The plot above compares the model’s predicted preparation times to the actual 
 Our final model achieved an RMSE of **[INSERT FINAL RMSE] minutes** on the test set. Compared to the baseline RMSE of **76.63 minutes**, this indicates that the final model improved predictive performance.
 
 Overall, the final model performs better than the baseline because the engineered features better capture recipe complexity and the Ridge regularization helps the model generalize more effectively to unseen data.
+
+## Fairness Analysis
+
+To evaluate whether our model performs equally well across different types of recipes, we conducted a fairness analysis. Specifically, we examined whether the model predicts preparation time more accurately for one fitness group than the other.
+
+We defined the two groups as:
+- **Group X:** Recipes with High Fitness scores  
+- **Group Y:** Recipes with Low Fitness scores  
+
+Our evaluation metric was **Root Mean Squared Error (RMSE)**, since our model is a regression model predicting preparation time in minutes.
+
+**Null Hypothesis:** The model is fair. The RMSE for high-fitness recipes and low-fitness recipes is approximately the same, and any observed difference is due to random chance.  
+
+**Alternative Hypothesis:** The model is not fair. The RMSE differs between high-fitness recipes and low-fitness recipes.  
+
+**Test Statistic:** The absolute difference in RMSE between the high-fitness and low-fitness recipe groups.  
+
+**Significance Level:** 0.05  
+
+<iframe src="./images/fairness_permutation.html" width="100%" height="550" style="border:none;"></iframe>
+
+We performed a permutation test by randomly shuffling the fitness group labels 1000 times and computing the difference in RMSE between the two groups for each permutation. This created a null distribution representing the differences we would expect if the model performed equally well for both groups.
+
+The observed RMSE difference was **37.71**, which is indicated by the red vertical line on the graph. Since the p-value (**0.0**) is less than the significance level of 0.05, we reject the null hypothesis.
+
+This result suggests that the model’s prediction error differs significantly between high-fitness and low-fitness recipes. In other words, the model performs better for one fitness group than the other, indicating a potential fairness concern.
+
+Our project aimed to understand differences in preparation time between recipes that align more closely with fitness-oriented nutrition and those that do not. While our model is able to estimate preparation time using nutritional and recipe structure features, the fairness analysis shows that it does not perform equally well across the two groups. This suggests that preparation time may depend on factors that differ between fitness groups in ways the model does not fully capture. As a result, predictions for one group may be less reliable than for the other, highlighting an important limitation of our model.
