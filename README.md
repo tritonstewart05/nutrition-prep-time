@@ -262,3 +262,37 @@ At the time of prediction, we assume access to features that are known before a 
 We do not use variables such as ratings or reviews, since these are only observed after users have cooked and evaluated the recipe. Including such variables would introduce information that is not available at prediction time and would lead to data leakage.
 
 To evaluate our model, we use **Root Mean Squared Error (RMSE)**. RMSE measures the typical magnitude of prediction errors, with larger RMSE's indicating worse predictors, making it appropriate for assessing how accurately our model predicts preparation time.
+
+## Baseline Model
+
+For our baseline model, we used a **Linear Regression** model to predict the preparation time of a recipe, measured by `minutes`. Since `minutes` is a continuous variable, this is a **regression problem**.
+
+The features used in our baseline model were `fitness_group`, `protein_pdv`, `total_fat_pdv`, and `n_steps`. The variable `fitness_group` is categorical, while the other features are quantitative. We one-hot encoded `fitness_group` and left the quantitative features unchanged.
+
+We implemented the model using a **scikit-learn Pipeline**, which first preprocesses the data and then fits the Linear Regression model. We split the dataset into training and testing sets so that we could evaluate how well the model generalizes to unseen data.
+
+To evaluate performance, we used **Root Mean Squared Error (RMSE)**. RMSE measures the typical size of prediction errors and penalizes larger errors more heavily, making it appropriate for a regression problem like ours.
+
+Our baseline model achieved an RMSE of **76.63 minutes** on the test set. This means that, on average, the model’s predictions differ from the true preparation times by about 76 minutes.
+
+While this baseline model provides a reasonable starting point, the relatively large RMSE suggests that it does not fully capture the factors that influence recipe preparation time. In the final model, we aim to improve performance by adding engineered features and introducing regularization.
+
+## Final Model
+
+To improve upon our baseline model, we engineered two additional features: `steps_per_ingredient` and `calories_per_ingredient`.
+
+The feature `steps_per_ingredient` measures recipe complexity relative to the number of ingredients. We believed this would be useful because two recipes may have the same number of steps, but the one with fewer ingredients may require more effort per ingredient. The feature `calories_per_ingredient` captures caloric density at the ingredient level, which may help the model distinguish between simpler and more involved recipes.
+
+Our final model used the features `fitness_group`, `protein_pdv`, `total_fat_pdv`, `n_steps`, `n_ingredients`, `steps_per_ingredient`, and `calories_per_ingredient`. As in the baseline model, `fitness_group` was one-hot encoded. All numerical features were standardized using **StandardScaler** so that they would be on comparable scales.
+
+For the modeling algorithm, we used **Ridge Regression**. We chose Ridge because it adds regularization, which helps reduce overfitting and improve generalization when using multiple correlated numerical features. To tune the model, we performed **GridSearchCV** over the hyperparameter `alpha`, testing the values 0.01, 0.1, 1, 10, and 100 with 5-fold cross-validation.
+
+The best value of `alpha` was selected based on cross-validated performance using RMSE.
+
+<iframe src="./images/final_model_predictions.html" width="100%" height="600" style="border:none;"></iframe>
+
+The plot above compares the model’s predicted preparation times to the actual preparation times. If the model were perfectly accurate, the points would lie on the red diagonal line. Instead, while the model captures general trends, many points fall away from that line, especially for recipes with very large preparation times. This suggests that the model performs better for more typical recipes than for extreme outliers.
+
+Our final model achieved an RMSE of **[INSERT FINAL RMSE] minutes** on the test set. Compared to the baseline RMSE of **76.63 minutes**, this indicates that the final model improved predictive performance.
+
+Overall, the final model performs better than the baseline because the engineered features better capture recipe complexity and the Ridge regularization helps the model generalize more effectively to unseen data.
