@@ -199,10 +199,6 @@ This metric captures the balance between protein and fat content. Recipes with a
 
 We analyze preparation time using the **`minutes`** column, comparing how long recipes take across these groups.
 
----
-
-### Hypothesis Testing
-
 We performed a permutation test to examine whether recipes that are more fitness-oriented tend to take longer to prepare. A permutation test is appropriate because it allows us to compare the **`minutes`** (preparation time) between two groups without making assumptions about the underlying distribution.
 
 Since cooking time can vary widely and may include extreme values, this method provides a flexible and robust way to evaluate whether the observed difference is meaningful.
