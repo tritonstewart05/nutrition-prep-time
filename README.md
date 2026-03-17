@@ -188,7 +188,7 @@ Overall, these results suggest that the missingness of ratings is not completely
 
 
 
-### Hypothesis Testing
+## Hypothesis Testing
 We aim to analyze the relationship between fitness-oriented recipes and their preparation time. Specifically, we investigate whether recipes with higher nutritional alignment tend to require more time to prepare.
 
 To determine whether a recipe is fitness-oriented, we define a fitness score using **`protein_pdv`** and **`total_fat_pdv`** as:
@@ -199,7 +199,6 @@ Recipes with a fitness score above the mean are classified as high-fitness recip
 
 We performed a permutation test to examine whether recipes that are more fitness-oriented tend to take longer to prepare. A permutation test is appropriate because it allows us to compare **`minutes`** between two groups without making assumptions about the underlying distribution.
 
----
 
 ### Hypotheses
 
@@ -249,8 +248,6 @@ Specifically, high-fitness recipes tend to take longer to prepare on average.
 One possible explanation is that recipes emphasizing higher **`protein_pdv`** and lower **`total_fat_pdv`** may require more ingredients or more complex preparation steps, leading to longer average cooking times.
 
 In particular, recipes with higher fitness scores tend to require longer preparation times.
-
----
 
 ### Interpretation
 
