@@ -179,7 +179,7 @@ The observed statistic is indicated by the red vertical line on the permutation 
 
 We ran another permutation test by randomly shuffling the missingness of `rating` 1000 times to simulate the distribution of mean differences between the two groups.
 
-The observed statistic is indicated by the red vertical line on the permutation distribution. Since the p-value we obtained (0.635) is greater than 0.05, we fail to reject the null hypothesis. This suggests that the missingness of `rating` does not depend on `random_col`, which is consistent with what we would expect from a randomly generated variable.
+The observed statistic is indicated by the red vertical line on the permutation distribution. Since the p-value we obtained (0.761) is greater than 0.05, we fail to reject the null hypothesis. This suggests that the missingness of `rating` does not depend on `random_col`, which is consistent with what we would expect from a randomly generated variable.
 
 ---
 
@@ -293,7 +293,7 @@ The best value of `alpha` was selected based on cross-validated performance usin
 
 The plot above compares the model’s predicted preparation times to the actual preparation times. If the model were perfectly accurate, the points would lie on the red diagonal line. Instead, while the model captures general trends, many points fall away from that line, especially for recipes with very large preparation times. This suggests that the model performs better for more typical recipes than for extreme outliers.
 
-Our final model achieved an RMSE of **[INSERT FINAL RMSE] minutes** on the test set. Compared to the baseline RMSE of **76.63 minutes**, this indicates that the final model improved predictive performance.
+Our final model achieved an RMSE of **76.36 minutes** on the test set. Compared to the baseline RMSE of **76.63 minutes**, this indicates that the final model improved predictive performance.
 
 Overall, the final model performs better than the baseline because the engineered features better capture recipe complexity and the Ridge regularization helps the model generalize more effectively to unseen data.
 
