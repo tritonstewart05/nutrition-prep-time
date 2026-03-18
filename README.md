@@ -232,6 +232,12 @@ The mean is appropriate here because we are comparing the average preparation ti
 - Observed statistic: 27.504
 - p-value: approximately 0.0001
 - Significance level: 0.05
+<iframe
+  src="images/fitness-permutation-plot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ---
 
